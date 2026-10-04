@@ -1,14 +1,26 @@
 ---
-title: "Introduction to nobelprizer"
+title: "introduction to nobelprizer"
 output: rmarkdown::html_vignette
 vignette: >
-  %\VignetteIndexEntry{Introduction to nobelprizer}
+  %\VignetteIndexEntry{introduction to nobelprizer}
   %\VignetteEngine{knitr::rmarkdown}
   %\VignetteEncoding{UTF-8}
 ---
 
-```{r, include = FALSE}
+```{r setup, include = FALSE}
 knitr::opts_chunk$set(
   collapse = TRUE,
   comment = "#>"
 )
+```
+
+## Overview
+The `nobelprizer` package retrieves Nobel Prize data from the official Nobel Prize API.
+
+## Example usage
+```{r example}
+library(nobelprizer)
+
+prizes <- get_nobel_prizes()
+head(prizes)
+```

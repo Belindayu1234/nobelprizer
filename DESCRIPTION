@@ -5,10 +5,9 @@ Authors@R:
     c(person("Qianwen", "Yu", , "qiayu183@student.liu.se", role = c("aut", "cre")),
     person("Wenjuan", "Li", , "wenli420@student.liu.se", role = c("aut")))
 Description: Fetch nobel prize and laureate data from official Nobel Prize public API.
-License: MIT
+License: MIT + file LICENSE
 Encoding: UTF-8
 Roxygen: list(markdown = TRUE)
-RoxygenNote: 7.3.2
 Imports:
     httr,
     jsonlite,
@@ -18,3 +17,4 @@ Suggests:
     knitr,
     rmarkdown
 VignetteBuilder: knitr
+Config/roxygen2/version: 8.1.0
