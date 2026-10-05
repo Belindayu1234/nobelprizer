@@ -7,20 +7,6 @@ vignette: >
   %\VignetteEncoding{UTF-8}
 ---
 
-```{r setup, include = FALSE}
-knitr::opts_chunk$set(
-  collapse = TRUE,
-  comment = "#>"
-)
-```
-
-## Overview
-The `nobelprizer` package retrieves Nobel Prize data from the official Nobel Prize API.
-
-## Example usage
-```{r example}
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(collapse = TRUE, comment = "#>")
 library(nobelprizer)
-
-prizes <- get_nobel_prizes()
-head(prizes)
-```
