@@ -8,5 +8,58 @@ vignette: >
 ---
 
 ```{r setup, include=FALSE}
-knitr::opts_chunk$set(collapse = TRUE, comment = "#>")
+knitr::opts_chunk$set(
+  collapse = TRUE,
+  comment = "#>"
+)
 library(nobelprizer)
+```
+
+# Overview
+
+The `nobelprizer` package provides a simple interface for retrieving
+Nobel Prize laureate data from the official Nobel Prize API.
+
+It is designed to support data exploration and visualization, including
+analysis of award categories, years, gender, birth countries, age at award,
+and prize amounts.
+
+# Get laureate data
+
+The main function is `get_nobel_laureates()`.
+
+```{r example, eval=FALSE}
+laureates <- get_nobel_laureates(limit = 10)
+laureates
+```
+
+The returned data frame contains information such as:
+
+- laureate ID
+- name
+- gender
+- birth date
+- death date
+- birth country
+- affiliation
+- award year
+- Nobel Prize category
+- prize amount
+- motivation
+- official Nobel Prize profile URL
+
+# Shiny application
+
+The Shiny application can be run from the package source directory with:
+
+```{r shiny, eval=FALSE}
+shiny::runApp("inst/app")
+```
+
+# Data source
+
+The data are retrieved from the official Nobel Prize API.
+
+For API documentation, see:
+
+<https://www.nobelprize.org/about/developer-zone-2/>
