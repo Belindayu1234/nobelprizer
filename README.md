@@ -13,19 +13,38 @@ You can install the development version of nobelprizer from GitHub:
 pak::pak("Belindayu1234/nobelprizer")
 ```
 
+## Launch Shiny application
+```
+app_location <- system.file("app", package = "nobelprizer")
+shiny::runApp(app_location)
+```
+
 ## Project structure
 ```
 nobelprizer/
-├── .github/workflows/   # GitHub Actions CI workflow
-├── R/                   # R source functions
-├── man/                 # Function documentation
-├── tests/               # Unit tests
-├── vignettes/           # Package vignette (introduction.Rmd)
+├── .github/
+│   └── workflows/          # GitHub‑Actions CI workflow files
+├── R/
+│   ├─ nobel_request.R      # Internal infrastructure: URL‑build, cache, HTTP, JSON parsing
+│   └─ nobel_api.R          # Exported public user‑facing functions
+├── inst/
+│   └─ app/
+│       └─ app.R            # Shiny interactive explorer (* master exercise)
+├── tests/
+│   ├─ testthat.R           # testthat runner
+│   └─ testthat/
+│       └─ test‑nobelprizer.R  # Unit test cases
+├── vignettes/
+│   └─ nobelprizer_intro.Rmd   # Package usage vignette
+├── man/                     # Auto‑generated function help pages (roxygen2)
 ├── DESCRIPTION
 ├── NAMESPACE
-├── .gitignore
 ├── .Rbuildignore
-└── nobelprizer.Rproj
+├── .gitignore
+├── LICENSE
+├── LICENSE.md
+├── nobelprizer.Rproj
+└── README.md
 ```
 
 ## Example
