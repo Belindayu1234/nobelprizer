@@ -1,3 +1,4 @@
+
 #' Fetch Nobel Prize laureates
 #'
 #' Queries the Nobel Prize API (v2) for laureates, optionally filtered by
@@ -33,6 +34,20 @@ get_nobel_laureates <- function(category = NULL, year = NULL,
     stopifnot(gender %in% c("male", "female"))
   }
 
+  # FIX 1: Convert category labels to Nobel API codes
+  category_codes <- c(
+    Physics = "phy",
+    Chemistry = "che",
+    Medicine = "med",
+    Economics = "eco",
+    Literature = "lit",
+    Peace = "pea"
+  )
+
+  if (!is.null(category)) {
+    category <- unname(category_codes[category])
+  }
+
   raw <- nobel_request(
     "laureates",
     nobelPrizeYear = year,
@@ -41,5 +56,42 @@ get_nobel_laureates <- function(category = NULL, year = NULL,
     limit = limit
   )
 
-  nobel_parse_laureates(raw)
+  # FIX 2: Store parsed data for filtering
+  result <- nobel_parse_laureates(raw)
+
+  if (nrow(result) == 0) {
+    return(result)
+  }
+
+  # FIX 3: Filter by category
+  if (!is.null(category)) {
+    category_names <- c(
+      phy = "Physics",
+      che = "Chemistry",
+      med = "Physiology or Medicine",
+      eco = "Economic Sciences",
+      lit = "Literature",
+      pea = "Peace"
+    )
+
+    result <- result[
+      !is.na(result$category) &
+        result$category == unname(category_names[category]),
+      ,
+      drop = FALSE
+    ]
+  }
+
+  # FIX 4: Filter by award year
+  if (!is.null(year)) {
+    result <- result[
+      !is.na(result$award_year) &
+        result$award_year == year,
+      ,
+      drop = FALSE
+    ]
+  }
+
+  rownames(result) <- NULL
+  result
 }

@@ -69,6 +69,7 @@ validate_category <- function(category) {
 # Parse one raw "laureates" response into a tidy data.frame.
 # Each row is one laureate-prize combination, so a person who won twice
 # appears in two rows. Age can be derived later as award_year - birth year.
+# appears in two rows. Age can be derived later as award_year - birth year.
 nobel_parse_laureates <- function(raw) {
   rows <- lapply(raw$laureates, function(l) {
     prizes <- l$nobelPrizes %||% list()
@@ -76,11 +77,30 @@ nobel_parse_laureates <- function(raw) {
       prizes <- list(list())
     }
     lapply(prizes, function(p) {
-      #
-      aff <- p$affiliations[[1]] %||% list()
+
+      # FIX 1: Handle missing affiliations safely
+      aff <- if (length(p$affiliations %||% list()) > 0) {
+        p$affiliations[[1]] %||% list()
+      } else {
+        list()
+      }
+
+      # FIX 2: Handle missing profile links safely
+      profile_url <- if (length(l$links %||% list()) >= 2) {
+        l$links[[2]]$href %||% NA_character_
+      } else {
+        NA_character_
+      }
+
       data.frame(
         id              = l$id,
-        name            = l$knownName$en %||% (l$fullName$en %||% NA_character_),
+
+        # FIX 3: Include organisation names
+        name            = l$knownName$en %||%
+          l$fullName$en %||%
+          l$orgName$en %||%
+          NA_character_,
+
         gender          = l$gender %||% NA_character_,
         birth_date      = l$birth$date %||% NA_character_,
         death_date      = l$death$date %||% NA_character_,
@@ -93,7 +113,7 @@ nobel_parse_laureates <- function(raw) {
         category        = p$category$en %||% NA_character_,
         prize_amount    = as.numeric(p$prizeAmount %||% NA_real_),
         motivation      = p$motivation$en %||% NA_character_,
-        profile_url = l$links[[2]]$href %||% NA_character_,
+        profile_url     = profile_url,
         stringsAsFactors = FALSE
       )
     })
@@ -103,4 +123,3 @@ nobel_parse_laureates <- function(raw) {
   }
   do.call(rbind, unlist(rows, recursive = FALSE))
 }
-

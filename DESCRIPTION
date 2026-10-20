@@ -14,6 +14,12 @@ Imports:
 Suggests:
     testthat (>= 3.0.0),
     knitr,
-    rmarkdown
+    rmarkdown,
+    shiny,
+    bslib,
+    ggplot2,
+    DT,
+    dplyr,
+    shinycssloaders
 VignetteBuilder: knitr
-Config/roxygen2/version: 8.1.0
+Config/roxygen2/version: 8.1.1
